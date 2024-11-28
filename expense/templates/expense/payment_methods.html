@@ -1,0 +1,65 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'expense/css/payment_methods.css' %}?v=1">
+<script src="{% static 'expense/js/payment_methods.js' %}?v=1"></script>
+
+<div class="payment-methods">
+    <h2>Payment Methods</h2>
+
+    <!-- Display Warnings -->
+    {% if warnings %}
+        <div class="warnings">
+            {% for warning in warnings %}
+                <p class="warning">{{ warning }}</p>
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    <!-- List of Payment Methods -->
+    <div class="payment-method-list">
+        {% for method in payment_methods %}
+            <div class="payment-method">
+                <h3>{{ method.name }}</h3>
+                <p>Type: {{ method.get_type_display }}</p>
+                <p>Balance: ₹{{ method.balance|default:"--" }}</p>
+                {% if method.type == 'credit_card' %}
+                    <p>Credit Limit: ₹{{ method.credit_limit }}</p>
+                    <p>Spent Limit: ₹{{ method.spent_limit }}</p>
+                {% endif %}
+                <p>Minimum Balance: ₹{{ method.minimum_balance|default:"--" }}</p>
+                <p>Account Type: {{ method.account_type|default:"--" }}</p>
+                <form method="post" action="{% url 'expense:delete_payment_method' method.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Add/Edit Payment Method Form -->
+    <div class="payment-method-form">
+        <h3>Add Payment Method</h3>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn">Save</button>
+        </form>
+    </div>
+</div>
+<style>
+    .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+</style>
+{% endblock %}

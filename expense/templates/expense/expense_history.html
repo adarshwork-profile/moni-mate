@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'expense/css/style.css' %}?v=1">
+<div class="expense-history">
+    <h2 style="text-align: center;">Expense History</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Expense</th>
+                <th>Amount</th>
+                <th>Date</th>
+                <th>Category</th>
+                <th>Payment Method</th>
+                <th>Transaction Mode</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for expense in expenses %}
+            <tr>
+                <td>{{ expense.name }}</td>
+                <td>{{ expense.amount }}</td>
+                <td>{{ expense.date }}</td>
+                <td>{{ expense.get_category_display }}</td>
+                <td>{{ expense.payment_method }}</td>
+                <td>{{ expense.get_transaction_mode_display }}</td>
+                <td><form method="post" action="{% url 'expense:delete_expense' expense.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger">Delete</button>
+                </form></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+<style>
+    .btn-danger {
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+</style>
+{% endblock %}

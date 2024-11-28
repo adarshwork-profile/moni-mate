@@ -1,0 +1,55 @@
+.payment-methods {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #333;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.payment-methods h2,
+.payment-method-form h3 {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.warnings {
+    background-color: #333;
+    border: 1px solid #ff0000;
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 20px;
+}
+
+.warning {
+    color: #d8000c;
+    font-weight: bold;
+}
+
+.payment-method-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.payment-method {
+    padding: 15px;
+    background-color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.payment-method h3 {
+    margin-top: 0;
+    color: #007bff;
+}
+
+.payment-method-form {
+    padding: 20px;
+    background-color: #333;
+    border: 1px solid #000;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
