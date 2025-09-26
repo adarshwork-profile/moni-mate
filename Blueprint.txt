@@ -1,0 +1,104 @@
+
+Files changed in this update: (22nd Aug 2025)
+
+base.html
+expense: views.py 
+
+
+Features to be added later: 
+1. Add a settings page with : 
+inflation adjustment
+report generation 
+2. Add assets & liabilities management app.
+3. Modify glossary to add search feature and section wise finance info ( not just full forms but informations too) 
+	Add a formula calculations details in the glossary page.
+4. Add calculator App
+	1. New/Old tax regime calculator ( which gives more benefits if invested in proper products) - regime can be changed every year
+	2. An income tax calculator which calculates a monthly amount to be kept aside for tax. ( based on taxable amount after deductions)
+	3. A long/Short term capital gains tax calcultor, calculates amount whenever we have any capital gains. ( based on taxable amount after deductions)
+6. dashboard shows warnings from assets and expenses ( realtime no database) 
+7. show warning or alert for credit-cards statement day.
+
+Settings:
+Inflation adjustment
+Add a yearly & monthly( detailed) report generation and which downloads yearly expense summary ( with monthly needs wants savings ) ratio.
+
+
+Features
+shows only current months expenses ( excludes income from list) 
+resets credit cards credit limit on every monthly cycle ( 1st day of month)
+
+
+features of settings
+2. credit cards statement day editing.(credit balance reseting changes based on this date )
+
+
+Features for assets app
+in asset wise view, use javascript to hide and show the form for updating current/invested amount.
+if asset amount is withdrawn then, go to modify invested amount and add the negative value, ( add this as a help text )
+
+
+========================================================
+CSS Basic Usage
+
+1. Display Type
+The display property determines how an element is visually rendered on the page. Common options include:
+
+a. Block
+Behavior: Takes up the full width of the container and starts on a new line.
+Usage: For structural elements like <div>, <p>, <section>.
+Example: Use for major sections of your template.
+b. Inline
+Behavior: Takes up only as much width as its content and stays on the same line as neighboring elements.
+Usage: For small elements like <span>, <a>, or <strong>.
+Example: Use for text styling or links.
+c. Inline-Block
+Behavior: Combines properties of block and inline. It respects width and height settings but stays on the same line as other inline elements.
+Usage: For buttons or small widgets that need custom dimensions.
+d. Flex
+Behavior: Makes the container a flexbox, allowing you to align child elements dynamically.
+Usage: For rows, columns, or evenly spaced layouts.
+Example: Use for navigation bars or grids.
+e. Grid
+Behavior: Enables CSS grid layout, dividing space into rows and columns.
+Usage: For complex, two-dimensional layouts.
+Example: Use for dashboards or responsive grids.
+
+2. Position Type
+The position property controls how elements are positioned relative to their parent container, viewport, or other elements.
+
+a. Static (Default)
+Behavior: Elements flow naturally with the document. No special positioning.
+Usage: Default for most elements unless specific positioning is required.
+b. Relative
+Behavior: Positioned relative to its original location in the document flow.
+Usage: When you want slight adjustments without affecting other elements.
+Example: Use to nudge elements slightly with top, left, right, or bottom.
+c. Absolute
+Behavior: Positioned relative to the nearest positioned ancestor (non-static parent).
+Usage: For floating elements like modals or tooltips.
+Example: Use for placing elements in a precise location within a container.
+d. Fixed
+Behavior: Positioned relative to the viewport (stays in place when scrolling).
+Usage: For sticky headers, footers, or floating buttons.
+Example: Use for a "Back to Top" button.
+e. Sticky
+Behavior: Toggles between relative and fixed, depending on scroll position.
+Usage: For elements that need to stay visible within a scrollable section.
+Example: Use for a sticky navigation bar.
+When to Choose What
+Display Type:
+
+Block for layout structure.
+Inline for styling inline text or icons.
+Flex/Grid for dynamic, responsive layouts.
+Position Type:
+
+Static for default flow.
+Relative for small adjustments.
+Absolute for floating elements in containers.
+Fixed for elements that need to stay visible during scrolling.
+Sticky for scroll-specific effects.
+
+
+

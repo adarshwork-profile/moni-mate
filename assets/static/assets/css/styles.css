@@ -1,0 +1,140 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+}
+
+.banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #724fff;
+    color:#000;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.banner .value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.banner .value h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.banner .action-tip h3 {
+    margin-left: auto;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.banner .action-tip p {
+    margin-left: auto;
+    font-size: 15px;
+}
+
+
+.growth-banner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #000;
+    color:#724fff;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.growth-banner .value {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+}
+
+.growth-banner .value h3 {
+    margin: 0;
+    font-size: 24px;
+}
+
+.alert {
+    text-align: center;
+    color: red;
+}
+.content {
+    margin: 20px;
+}
+
+.visual-display {
+    display: flex; /* Arrange children side by side */
+    justify-content: space-between; /* Space between charts */
+    gap: 20px; /* Optional spacing */
+}
+
+.growth-chart, .assets-ratio {
+    flex: 1; /* Make both charts take equal space */
+    background: #2b332f; /* Matches the growth-chart styling */
+    color: #c2b5b5;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.growth-chart h2, .assets-ratio h2 {
+    margin-top: 0;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 5px;
+    color: white;
+}
+
+.asset-list, .liability-list {
+    background: #2b332f;
+    border-radius: 8px;
+    padding: 15px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.growth-chart h2, .asset-list h2, .liability-list h2 {
+    margin-top: 0;
+    border-bottom: 2px solid #0056b3;
+    padding-bottom: 5px;
+}
+
+.asset-list table, .liability-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.asset-list th, .liability-list th, .asset-list td, .liability-list td {
+    text-align: left;
+    padding: 8px;
+}
+
+.view-button {
+    background-color: #0056b3;
+    text-decoration: none;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.view-button:hover {
+    background-color: #003d80;
+}
+
+#wealth-distribution {
+    max-width: 350px;
+    max-height: 350px;
+    width:100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}

@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="confirm-delete">
+    <h2>Are you sure you want to delete "{{ liability.name }}"?</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Yes, Delete</button>
+        <a href="{% url 'assets:wealth' %}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+<style>
+    .confirm-delete {
+        text-align: center;
+    }
+    .btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    .btn-secondary:hover {
+    background-color: #5a6268;
+    }
+    .btn-danger {
+    text-align: center;
+    background-color: #dc3545;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    }
+
+    .btn-danger:hover {
+    background-color: #c82333;
+    }
+
+</style>
+{% endblock %}

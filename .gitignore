@@ -1,0 +1,82 @@
+# ============================
+# Python
+# ============================
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Distribution / packaging
+*.egg
+*.egg-info/
+.eggs/
+build/
+dist/
+pip-wheel-metadata/
+
+# Installer logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Unit test / coverage reports
+htmlcov/
+.tox/
+.nox/
+.coverage
+coverage.*
+.cache
+nosetests.xml
+coverage.xml
+*.cover
+*.py,cover
+*.hypothesis/
+
+# Jupyter Notebook checkpoints
+.ipynb_checkpoints
+
+# pyenv
+.python-version
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# ============================
+# Django
+# ============================
+
+# Local database
+db.sqlite3
+
+# Migrations (keep __init__.py but ignore others until stable schema)
+**/migrations/__pycache__/
+**/migrations/*.py
+!**/migrations/__init__.py
+
+# Logs
+*.log
+
+# Secrets
+.env
+*.env
+
+# Static & media (collected/generated at runtime)
+staticfiles/
+media/
+
+# ============================
+# Virtual Environments
+# ============================
+venv/
+env/
+ENV/
+.venv/
+
+# ============================
+# OS-specific junk
+# ============================
+.DS_Store
+Thumbs.db

@@ -5,17 +5,40 @@
         <meta charset="UTF8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Moni-Mate{% endblock %}</title>
-        <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3">
-        <script scr="{% static 'js/script.js' %}" defer></script>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}?v=1">
     </head>
     <body>
+        <!-- Hamburger Menu -->
+        <div class="hamburger-menu">
+            <button id="menu-toggle" class="hamburger-btn">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+        </div>
         <header class="header">
             <h1>Moni-Mate</h1>
-            <img class="site-logo" src="{% static 'images/logo.png' %}" alt="Website Logo">
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="{% url 'expense:dashboard' %}" class="btn btn-glossary">Dashboard</a></li>
-                    <li><a href="{% url 'logout' %}" class="btn btn-logout">Logout</a></li>
+            <p>Your Financial Mate.</p>
+            <!-- Sidebar Menu -->
+            <div id="sidebar" class="sidebar">
+                <nav>
+                    {% if user.is_authenticated %}
+                    <a href="{% url 'expense:dashboard' %}" class="menu-item">Dashboard</a>
+                    <a href="{% url 'expense:add_expense' %}" class="menu-item">Add Expense</a>
+                    <a href="{% url 'expense:add_income' %}" class="menu-item">Add Income</a>
+                    <a href="{% url 'expense:payment_methods' %}" class="menu-item">Payment Methods</a>
+                    <a href="{% url 'expense:expense_history' %}" class="menu-item">Expense History</a>
+                    <a href="{% url 'assets:wealth' %}" class="menu-item">Wealth</a>
+                    <a href="{% url 'assets:add-assets' %}" class="menu-item">Add Assets</a>
+                    <a href="{% url 'assets:add-lib' %}" class="menu-item">Add Liability</a>
+                    <a href="{% url 'expense:settings' %}" class="menu-item">Settings</a>
+                    <a href="{% url 'glossary' %}" class="menu-item">Glossary</a>
+                    <a href="{% url 'core:logout' %}" class="menu-item">Logout</a>
+                    {% else %}
+                    <a href="{% url 'core:register' %}" class="menu-item">Sign Up</a>
+                    <a href="{% url 'core:login' %}" class="menu-item">Log In</a>
+                    <a href="{% url 'glossary' %}" class="menu-item">Glossary</a>
+                    {% endif %}
                 </ul>
             </nav>
         </header>
@@ -24,11 +47,16 @@
         </main>
         <footer class="footer">
             <p>&copy; 2024 Moni-Mate.All rights reserved.</p>
-            <nav>
-                <ul class="nav-links">
-                    <li><a href="{% url 'glossary' %}" class="btn btn-glossary">Glossary</a></li>
-                </ul>
-            </nav>
         </footer>
     </body>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const menuToggle = document.getElementById('menu-toggle');
+            const sidebar = document.getElementById('sidebar');
+    
+            menuToggle.addEventListener('click', function () {
+                sidebar.classList.toggle('active');
+            });
+        });
+    </script>
 </html>

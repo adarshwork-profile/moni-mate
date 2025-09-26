@@ -16,6 +16,7 @@ class PaymentMethod(models.Model):
     spent_limit = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True) # credit card spent limit in amounts.
     original_credit_limit = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True) # used to reset credit limit value to normal upon billing cycle completion.
     credit_limit = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True) #for credit cards -enter total amount limit.
+    billing_date = models.IntegerField(default=1) # billing date for the credit card ( credit cards only )
     minimum_balance = models.DecimalField(max_digits=10,decimal_places=2,null=True,blank=True,help_text="  Enter 0 for Zero Balance Accounts.") #for banks - default = 10%
     account_type = models.CharField(max_length=50,null=True,blank=True) #banks
 
@@ -38,7 +39,6 @@ class Expense(models.Model):
     name = models.CharField(max_length=255)
     amount = models.DecimalField(max_digits=10, decimal_places=2)
     date = models.DateField(default=now)
-    description = models.TextField(null=True,blank=True)
     payment_method = models.ForeignKey(PaymentMethod,null=True,blank=True, on_delete=models.SET_NULL)
     transaction_mode = models.CharField(max_length=100,choices=TRANSACTION_MODE,default='other')
     category = models.CharField(max_length=10,choices=[

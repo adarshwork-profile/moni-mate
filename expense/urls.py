@@ -12,4 +12,5 @@ urlpatterns = [
     path('payments/',views.payment_methods,name='payment_methods'),
     path('payments/delete/<int:pk>/',views.delete_payment_method,name='delete_payment_method'),
     path('expense/delete/<int:pk>/',views.delete_expense,name='delete_expense'),
+    path('settings/',views.settings,name='settings'),
 ]

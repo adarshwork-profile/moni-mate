@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
+{% block title %}Add Asset{% endblock %}
 {% load static %}
-{% block title %}Add Assets{% endblock %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'expense/css/add_expense.css' %}?v=5">
+<link rel="stylesheet" href="{% static 'assets/css/add_assets.css' %}?v=2">
+<script src="{% static 'assets/js/add_assets.js' %}?v=9"></script>
 <div class="center-wrapper">
     <div class="form-container">
-        <h2>Add Expense</h2>
+        <h2>Add Assets</h2>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit" class="btn btn-primary">Add Expense</button>
+            <button type="submit" class="btn btn-primary">Add Asset</button>
             <a href="{% url 'expense:dashboard' %}" class="btn btn-secondary">Cancel</a>
         </form>
     </div>
 </div>
+
 {% endblock %}

@@ -4,23 +4,36 @@ from .models import Expense,PaymentMethod
 class ExpenseForm(forms.ModelForm):
     class Meta:
         model = Expense
-        fields = ['name','amount','date','description','payment_method', 'transaction_mode','category']
+        fields = ['name','amount','date','payment_method', 'transaction_mode','category']
         widgets = {
+            'payment_method':forms.Select(attrs={'class': 'form-control'}),
             'category':forms.Select(attrs={'class': 'form-control'}),
             'transaction_mode':forms.Select(attrs={'class': 'form-control'}),
             'date':forms.DateInput(attrs={'type':'date'}),
             'name':forms.TextInput(attrs={'class':'form-control'}),
             'amount':forms.NumberInput(attrs={'class':'form-control'}),
         }
+    
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user',None)
+        super().__init__(*args, **kwargs)
+        if user:
+            self.fields['payment_method'].queryset = PaymentMethod.objects.filter(user=user)
 
 class PaymentMethodForm(forms.ModelForm):
     spent_percent = forms.DecimalField(max_digits=10,decimal_places=2,required=False,help_text="Percentage of credit limit you want to set as the spent limit (e.g., 30 for 30%).")
 
     class Meta:
         model = PaymentMethod
-        fields = ['name','type','balance','credit_limit','minimum_balance','account_type']
+        fields = ['name','type','balance','credit_limit','minimum_balance','account_type','billing_date']
         widgets = {
             'type': forms.Select(attrs={'class':'form-control'}),
+            'name':forms.TextInput(attrs={'class':'form-control'}),
+            'balance':forms.NumberInput(attrs={'class':'form-control'}),
+            'minimum_balance':forms.NumberInput(attrs={'class':'form-control'}),
+            'credit_limit':forms.NumberInput(attrs={'class':'form-control'}),
+            'account_type':forms.TextInput(attrs={'class':'form-control'}),
+            'billing_date':forms.NumberInput(attrs={'class':'form-control'}),
         }
 
     def clean(self):
@@ -33,7 +46,8 @@ class PaymentMethodForm(forms.ModelForm):
             if credit_limit is None:
                 raise forms.ValidationError('Credit limit is required for credit card.')
             if spent_percent is None or spent_percent < 0 or spent_percent > 100:
-                raise forms.ValidationError("Spent percent must be a number between 0 and 100 for credit cards.")
+                # print(spent_percent)
+                raise forms.ValidationError("Spent percent must be a number between 0 and 100.")
         else:
             cleaned_data['spent_percent'] = None
             cleaned_data['credit_limit'] = None
@@ -57,16 +71,21 @@ class PaymentMethodForm(forms.ModelForm):
 class IncomeForm(forms.ModelForm):
     class Meta:
         model = Expense
-        fields = ['name','amount','date','description','payment_method','transaction_mode']
+        fields = ['name','amount','date','payment_method','transaction_mode']
         widgets = {
             'date':forms.DateInput(attrs={'type': 'date'}),
+            'payment_method':forms.Select(attrs={'class': 'form-control'}),
+            'transaction_mode':forms.Select(attrs={'class': 'form-control'}),
+            'name':forms.TextInput(attrs={'class':'form-control'}),
+            'amount':forms.NumberInput(attrs={'class':'form-control'}),
         }
 
     def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user',None)  # Retrieve the user passed during form initialization
         super().__init__(*args, **kwargs)
         self.fields['transaction_mode'].label = 'Income Source'
-        user = kwargs.pop('user',None)  # Retrieve the user passed during form initialization
         if user:
+            print(user)
             self.fields['payment_method'].queryset = PaymentMethod.objects.filter(user=user)
 
 

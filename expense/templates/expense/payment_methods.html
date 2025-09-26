@@ -1,8 +1,8 @@
 {% extends 'base.html' %}
 {% block content %}
 {% load static %}
-<link rel="stylesheet" href="{% static 'expense/css/payment_methods.css' %}?v=1">
-<script src="{% static 'expense/js/payment_methods.js' %}?v=1"></script>
+<link rel="stylesheet" href="{% static 'expense/css/payment_methods.css' %}?v=5">
+<script src="{% static 'expense/js/payment_methods.js' %}?v=9"></script>
 
 <div class="payment-methods">
     <h2>Payment Methods</h2>
@@ -21,14 +21,21 @@
         {% for method in payment_methods %}
             <div class="payment-method">
                 <h3>{{ method.name }}</h3>
-                <p>Type: {{ method.get_type_display }}</p>
-                <p>Balance: ₹{{ method.balance|default:"--" }}</p>
-                {% if method.type == 'credit_card' %}
+                {% if method.type == 'bank' %}
+                    <p>Type: {{ method.get_type_display }}</p>
+                    <p>Balance: ₹{{ method.balance|default:"0" }}</p>
+                    <p>Minimum Balance: ₹{{ method.minimum_balance|default:"--" }}</p>
+                    <p>Account Type: {{ method.account_type|default:"--" }}</p>
+                {% elif method.type == 'credit_card' %}
+                    <p>Type: {{ method.get_type_display }}</p>
                     <p>Credit Limit: ₹{{ method.credit_limit }}</p>
                     <p>Spent Limit: ₹{{ method.spent_limit }}</p>
+                    <p>Billing Date: {{ method.billing_date }}<br><sub style="color: #ff8503;">Credit balance resets on this date.</sub></p>
+                {% else %}
+                    <p>Type: {{ method.get_type_display }}</p>
+                    <p>Balance: ₹{{ method.balance|default:"0" }}</p>
                 {% endif %}
-                <p>Minimum Balance: ₹{{ method.minimum_balance|default:"--" }}</p>
-                <p>Account Type: {{ method.account_type|default:"--" }}</p>
+
                 <form method="post" action="{% url 'expense:delete_payment_method' method.id %}" style="display: inline;">
                     {% csrf_token %}
                     <button type="submit" class="btn btn-danger">Delete</button>

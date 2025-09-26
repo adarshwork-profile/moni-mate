@@ -1,0 +1,64 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Settings{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'expense/css/settings.css' %}?v=1">
+
+<div class="container">
+    <header>
+        <h1>{{ username }}</h1>
+    </header>
+
+    <section class="asset-details">
+        <p><strong>Email:</strong> {{ email }}</p>
+        <p><strong>Inflation:</strong> {{ inflation }}</p>
+    </section>
+
+    <section class="update-section">
+        <h3>Update Inflation</h3>
+        
+        <form method="post" action="{% url 'expense:settings' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="inflation-form">
+
+            <label for="new-value">New Value:</label>
+            <input type="number" name="new-value" id="new-value" required>
+
+        <button type="submit" class="btn btn-primary">Update Inflation</button>
+        </form>
+    </section>
+
+    <section class="update-section">
+        <h3>Generate Expense Report</h3>
+        
+        <form method="post" action="{% url 'expense:settings' %}">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="expense-report">
+            <label for="report-type">Report Type:</label>
+            <select id="report-type" name="report-type">
+                <option value="monthly">Monthly</option>
+                <option value="yearly">Yearly</option>
+            </select>
+            <label for="year">Year:</label>
+            <input type="number" name="year" id="year" required>
+            <label for="month">Month:</label>
+            <select id="month" name="month">
+                <option value="January">January</option>
+                <option value="February">February</option>
+                <option value="March">March</option>
+                <option value="April">April</option>
+                <option value="May">May</option>
+                <option value="June">June</option>
+                <option value="July">July</option>
+                <option value="August">August</option>
+                <option value="September">September</option>
+                <option value="October">October</option>
+                <option value="November">November</option>
+                <option value="December">December</option>
+            </select>        
+
+        <button type="submit" class="btn btn-primary">Generate Report</button>
+        </form>
+    </section>
+</div>
+{% endblock %}

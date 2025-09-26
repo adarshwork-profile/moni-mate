@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Asset View{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'assets/css/asset_view.css' %}?v=3">
+
+<div class="container">
+    <header>
+        <h1>{{ asset.name }}</h1>
+    </header>
+
+    <section class="asset-details">
+        <p><strong>Type:</strong> {{ asset.get_type_display }}</p>
+        <p><strong>Tenure:</strong> {{ asset.get_tenure_display }}</p>
+        <p><strong>Purpose:</strong> {{ asset.purpose }}</p>
+        <p><strong>Invested Value:</strong> ₹ {{ asset.invested_value }}</p>
+        <p><strong>Current Value:</strong> ₹ {{ asset.current_value }}</p>
+        <p><strong>Growth Percentage:</strong> {{ asset.growth_rate }}%</p>
+    </section>
+
+    <section class="update-section">
+        <h3>Update Asset<br><sub>(Update this data only on a monthly basis to keep the accuracy of the calculations.)</sub></h3>
+        
+        <form method="post" action="{% url 'assets:asset-view' asset.id %}">
+            {% csrf_token %}
+            <label for="update-type">Update:</label>
+            <select id="update-type" name="update-type">
+                <option value="invested">Invested Amount</option>
+                <option value="current">Current Value</option>
+            </select>
+
+            <label for="new-value">New Value:</label>
+            <input type="number" name="new-value" id="new-value" required>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'assets:delete-asset' asset.id %}" class="btn btn-danger">Delete Asset</a>
+        </form>
+    </section>
+</div>
+{% endblock %}

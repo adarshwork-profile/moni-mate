@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Liability View{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'assets/css/asset_view.css' %}?v=2">
+
+<div class="container">
+    <header>
+        <h1>{{ liability.name }}</h1>
+    </header>
+
+    <section class="asset-details">
+        <p><strong>Type:</strong> {{ liability.get_type_display }}</p>
+        <p><strong>Notes:</strong> {{ liability.notes }}</p>
+        <p><strong>Installments:</strong> ₹ {{ liability.installments }}</p>
+        <p><strong>Total Amount:</strong> ₹ {{ liability.total_amount }}</p>
+    </section>
+
+    <section class="update-section">
+        <h3>Update Liability</h3>
+        
+        <form method="post" action="{% url 'assets:lib-view' liability.id %}">
+            {% csrf_token %}
+            <label for="update-type">Update:</label>
+            <select id="update-type" name="update-type">
+                <option value="emi">Installments</option>
+                <option value="total">Total Amount</option>
+                <option value="notes">Notes</option>
+            </select>
+
+            <label for="new-value">New Value:</label>
+            <input name="new-value" id="new-value" required>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a href="{% url 'assets:delete-lib' liability.id %}" class="btn btn-danger">Delete Liability</a>
+    </form>
+</div>
+{% endblock %}

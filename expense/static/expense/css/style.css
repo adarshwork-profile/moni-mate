@@ -1,24 +1,47 @@
-.dashboard {
+.charts {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
     padding: 20px;
 }
 
-.warnings, .balances {
+.info {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    padding: 20px;
+}
+.warnings {
     flex: 1;
     max-width: 30%;
     margin: 20px;
-    background-color: #333;
-    border: 1px solid #ffd54f;
+    background-color: #000;
+    border: 1px solid #e95722;
     border-radius: 8px;
     padding: 15px;
 }
 
-.warnings h3, .balances h3 {
+.balances {
+    flex: 1;
+    max-width: 30%;
+    margin: 20px;
+    background-color: #000;
+    border: 1px solid #724fff;
+    border-radius: 8px;
+    padding: 15px;
+}
+
+.warnings h3 {
     text-align: center;
     font-size: 1.2em;
     color: #ff6f00;
+    margin-bottom: 10px;
+}
+
+.balances h3 {
+    text-align: center;
+    font-size: 1.2em;
+    color: #724fff;
     margin-bottom: 10px;
 }
 
@@ -27,6 +50,15 @@
     font-weight: bold;
     list-style: square;
     margin-left: 20px;
+    text-align: center;
+}
+
+.no-warning {
+    color: #287d10;
+    font-weight: bold;
+    list-style: square;
+    margin-left: 20px;
+    text-align: center;
 }
 
 .balances ul {
@@ -67,23 +99,9 @@
 }
 
 
-.expense-history table {
-    width:100%;
-    border-collapse: collapse;
-}
 
-.expense-history th, .expense-history td {
-    border: 1px solid #555;
-    padding: 8px;
-    text-align: left;
-    color:white;
-}
 
-.expense-history th {
-    background-color: #444;
-}
-
-#pie-chart {
+#expense-chart {
     max-width: 400px;
     max-height: 400px;
     width:100%;
@@ -91,3 +109,13 @@
     margin: 0 auto;
     display: block;
 }
+
+#networth-chart {
+    max-width: 400px;
+    max-height: 400px;
+    width:100%;
+    height: auto;
+    margin: 0 auto;
+    display: block;
+}
+

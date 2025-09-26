@@ -23,4 +23,5 @@ urlpatterns = [
     path('accounts/',include('core.urls')),
     path('',include('expense.urls')),
     path('glossary/', TemplateView.as_view(template_name="glossary.html"), name='glossary'),
+    path('assets/',include('assets.urls')),
 ]

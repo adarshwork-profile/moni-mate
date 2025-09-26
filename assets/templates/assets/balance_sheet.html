@@ -1,0 +1,224 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Balance Sheet{% endblock %}
+{% block content %}
+    <link rel="stylesheet" href="{% static 'assets/css/styles.css' %}?v=5">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
+    <div class="banner">
+        <div class="value">
+            <h3>NIFTY50 Value</h3>
+            <p>{{ analysis.nifty }}<br><sub>Points</sub></p>
+        </div>
+        <div class="value">
+            <h3>Market Value</h3>
+            <p>{{ analysis.market_val }}%<br><sub>Deviation</sub></p>
+        </div>
+        <div class="value">
+            <h3>Market Sentiments</h3>
+            <p>{{ analysis.market_sentim }}%<br><sub>Deviation</sub></p>
+        </div>
+        <div class="action-tip">
+            <h3>{{ analysis.msg_head }}</h3>
+            <p>{{ analysis.msg_body }}</p>
+        </div>
+    </div>
+    <div class="growth-banner">
+        <div class="value">
+            <h3>Overall Growth</h3>
+            <p>{{ overall_growth }} %</p>
+        </div>
+        <div class="value">
+            <h3>Projected Growth</h3>
+            <p>₹ {{ growth_projection }} <br><sub>( in 10 years)</sub></p>
+        </div>
+        <div class="value">
+            <h3>Inflation Adjusted Growth</h3>
+            <p>{{ real_growth }} % <br><sub>Inflation: {{ inflation }} %</sub></p>
+        </div>
+    </div>
+    <div class="alert">
+        {% if update_alert %}
+            <h3>Assets Data Update Alert</h3>
+            <p>Please update invested amount & current amount of your assets to maintain the accuracy of calculations.<br>Ignore if already done.</p>
+        {% endif %}
+    </div>
+    <div class="content">
+        <div class="visual-display">
+            <div class="growth-chart">
+                <h2>Wealth Projection</h2>
+                <canvas id="assetGrowth"></canvas>>
+            </div>
+            <div class="assets-ratio">
+                <h2>Wealth Distribution</h2>
+                {% if type_values %}
+                    <canvas id="wealth-distribution"></canvas>
+                {% else %}
+                    <p>Add assets to view wealth distribution.</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <div class="asset-list">
+            <h2>Assets</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Invested Value</th>
+                        <th>Current Value</th>
+                        <th>Growth %</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for asset in assets %}
+                    <tr>
+                        <td>{{ asset.name }}</td>
+                        <td>₹{{ asset.invested_value }}</td>
+                        <td>₹{{ asset.current_value }}</td>
+                        <td>{{ asset.growth_rate }}%</td>
+                        <td><a href="{% url 'assets:asset-view' asset.id %}" class="view-button">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="asset-list">
+            <h2>Liabilities</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Type</th>
+                        <th>Installments</th>
+                        <th>Total Amount</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for loan in liabilities %}
+                    <tr>
+                        <td>{{ loan.name }}</td>
+                        <td>{{ loan.get_type_display }}</td>
+                        <td>₹{{ loan.installments }}</td>
+                        <td>₹{{ loan.total_amount }}</td>
+                        <td><a href="{% url 'assets:lib-view' loan.id %}" class="view-button">View</a></td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            // Data for Activity Chart
+            const activityChartCtx = document.getElementById('assetGrowth').getContext('2d');
+            const activityData = {
+                labels: {{ growth_labels| safe }}, // Example: Adjust dynamically | {{ date_list|safe }}
+                datasets: [{
+                    label: 'Wealth',
+                    data: {{ growth_projections|safe }}, // Example data {{ count_list|safe }}
+                    borderColor: '#4CAF50',
+                    fill: false,
+                    tension: 0.3
+                }]
+            };
+    
+            new Chart(activityChartCtx, {
+                type: 'line',
+                data: activityData,
+                options: {
+                    responsive: true,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        x: {
+                            title: {
+                                display: true,
+                                text: 'Years',
+                                color:'#ffffff'
+                            }
+                        },
+                        y: {
+                            title: {
+                                display: true,
+                                text: 'Projected Wealth ( in ₹ )',
+                                color:'#ffffff'
+                            }
+                        }
+                    }
+                }
+            });
+            // Doughnut chart for wealth distribution
+            var ctx = document.getElementById('wealth-distribution').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ type_labels|safe|default:"[]" }},
+                    datasets: [{
+                        data: {{ type_values|safe|default:"[]" }},
+                        backgroundColor: [
+                            '#c73554', '#257db7', '#349696', 
+                            '#f5a623', '#a55eea', '#2ecc71', 
+                            '#e74c3c', '#34495e', '#9b59b6', 
+                            '#1abc9c'
+                        ],
+                        borderColor: [
+                        'rgba(255, 99, 132, 1)', 
+                        'rgba(54, 162, 235, 1)', 
+                        'rgba(255, 206, 86, 1)', 
+                        'rgba(255, 159, 64, 1)', 
+                        'rgba(153, 102, 255, 1)', 
+                        'rgba(46, 204, 113, 1)', 
+                        'rgba(231, 76, 60, 1)', 
+                        'rgba(52, 73, 94, 1)', 
+                        'rgba(155, 89, 182, 1)', 
+                        'rgba(26, 188, 156, 1)'
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '50%', 
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    var dataset = tooltipItem.chart.data.datasets[0];
+                                    var total = dataset.data.reduce(function(previousValue, currentValue) {
+                                        return previousValue + currentValue;
+                                    }, 0);
+                                    var currentValue = dataset.data[tooltipItem.dataIndex];
+                                    var percentage = Math.floor(((currentValue / total )* 100) + 0.5); 
+                                    return ' ' + percentage + '%'; 
+                                }
+                            }
+                        },
+                        datalabels: {
+                            formatter: function(value, ctx) {
+                                var total = 0;
+                                ctx.chart.data.datasets[0].data.forEach(function(item) {
+                                    total += item;
+                                });
+                                var percentage = (value/total * 100).toFixed(2) + '%';
+                                return percentage;
+                            },
+                            color: '#fff',
+                            anchor: 'center',
+                            align: 'center'
+                        }
+                    }
+                }
+            });
+        });
+    
+    </script>
+{% endblock %}

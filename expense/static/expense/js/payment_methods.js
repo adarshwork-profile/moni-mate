@@ -1,3 +1,5 @@
+// toggles between fields depending on the payment method type.
+
 document.addEventListener('DOMContentLoaded', function() {
     const typeField = document.querySelector('select[name="type"]');
     const creditLimitField = document.querySelector('input[name="credit_limit"]');
@@ -14,6 +16,15 @@ document.addEventListener('DOMContentLoaded', function() {
             creditLimitField.closest('p').style.display = 'block';
             spentPercentField.closest('p').style.display = 'block';
         } else if (typeField.value === 'cash') {
+            minimumBalanceField.closest('p').style.display = 'none';
+            accountTypeField.closest('p').style.display = 'none';
+            creditLimitField.closest('p').style.display = 'none';
+            spentPercentField.closest('p').style.display = 'none';
+            balanceField.closest('p').style.display = 'block';
+        } else if (typeField.value === 'digital_wallet') {
+            creditLimitField.closest('p').style.display = 'none';
+            spentPercentField.closest('p').style.display = 'none';
+            balanceField.closest('p').style.display = 'block';
             minimumBalanceField.closest('p').style.display = 'none';
             accountTypeField.closest('p').style.display = 'none';
         } else {

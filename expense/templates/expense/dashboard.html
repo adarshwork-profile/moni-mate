@@ -5,43 +5,36 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
-<h2 style="text-align: center;">Dashboard</h2>
-<div class="dashboard">
-
-    <!-- Warnings Section -->
-    {% if warnings %}
-    <div class="warnings">
-        <h3>Warnings</h3>
-        <ul>
-            {% for warning in warnings %}
-            <li class="warning-item">{{ warning }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    {% endif %}
-
+<!-- Main Section -->
+<h2 style="text-align: center; font-size: 30px; color: #8B7500;">Dashboard</h2>
+<div class="charts">
 
     <!-- Pie Chart for Expense Categories -->
-    {% if category_labels and category_values %}
-        <canvas id="pie-chart"></canvas>
-    {% else %}
-        <p>No data to display</p>
+    <h3 style="text-align: center;">Expense Chart<br><sub>Monthly Expenses : ₹{{ total_expense }}</sub></h3>
+    {% if category_values %}
+        <canvas id="expense-chart"></canvas>
     {% endif %}
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            var ctx = document.getElementById('pie-chart').getContext('2d');
+            var ctx = document.getElementById('expense-chart').getContext('2d');
             var chart = new Chart(ctx, {
-                type: 'pie',
+                type: 'doughnut',
                 data: {
                     labels: {{ category_labels|safe|default:"[]" }},
                     datasets: [{
                         data: {{ category_values|safe|default:"[]" }},
                         backgroundColor: ['#c73554', '#257db7', '#349696'],
+                        borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                        ],
                     }]
                 },
                 options: {
                     responsive: true,
+                    cutout: '50%', 
                     plugins: {
                         legend: {
                             position: 'top',
@@ -77,7 +70,85 @@
             });
         });
     </script>
-    
+
+    <!-- Pie Chart for Assets - MODIFY AFTER ASSETS SECTION IS CREATED -->
+    <h3 style="text-align: center;">Networth Chart</h3>
+    {% if networth_values %}
+        <canvas id="networth-chart"></canvas>
+    {% endif %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            var ctx = document.getElementById('networth-chart').getContext('2d');
+            var chart = new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: {{ networth_labels|safe|default:"[]" }},
+                    datasets: [{
+                        data: {{ networth_values|safe|default:"[]" }},
+                        backgroundColor: ['#c73554', '#257db7', '#349696'],
+                        borderColor: [
+                        'rgba(255, 99, 132, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)'
+                        ],
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    cutout: '50%',
+                    plugins: {
+                        legend: {
+                            position: 'top',
+                        },
+                        tooltip: {
+                            callbacks: {
+                                label: function(tooltipItem) {
+                                    var dataset = tooltipItem.chart.data.datasets[0];
+                                    var total = dataset.data.reduce(function(previousValue, currentValue) {
+                                        return previousValue + currentValue;
+                                    }, 0);
+                                    var currentValue = dataset.data[tooltipItem.dataIndex];
+                                    var percentage = Math.floor(((currentValue / total )* 100) + 0.5); 
+                                    return ' ' + percentage + '%'; 
+                                }
+                            }
+                        },
+                        datalabels: {
+                            formatter: function(value, ctx) {
+                                var total = 0;
+                                ctx.chart.data.datasets[0].data.forEach(function(item) {
+                                    total += item;
+                                });
+                                var percentage = (value/total * 100).toFixed(2) + '%';
+                                return percentage;
+                            },
+                            color: '#fff',
+                            anchor: 'center',
+                            align: 'center'
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</div>
+
+<div class="info">
+
+    <!-- Warnings Section -->
+    <div class="warnings">
+        <h3>Warnings</h3>
+        {% if warnings %}
+            <ul>
+                {% for warning in warnings %}
+                    <li class="warning-item">{{ warning }}</li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p class="no-warning">You have no warnings for now.</p>
+            {% endif %}
+    </div>
 
     <!-- Balances Section -->
     <div class="balances">
@@ -93,13 +164,6 @@
         {% endif %}
     </div>
 
-    <!-- Dashboard Buttons -->
-    <div class="dashboard-actions">
-        <a href="{% url 'expense:add_expense' %}" class="btn">Add Expense</a>
-        <a href="{% url 'expense:add_income' %}" class="btn">Add Income</a>
-        <a href="{% url 'expense:payment_methods' %}" class="btn">Payment Methods</a>
-        <a href="{% url 'expense:expense_history' %}" class="btn">Expense History</a>
-    </div>
 </div>
 
 {% endblock %}

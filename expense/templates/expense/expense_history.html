@@ -3,7 +3,7 @@
 {% load static %}
 <link rel="stylesheet" href="{% static 'expense/css/style.css' %}?v=1">
 <div class="expense-history">
-    <h2 style="text-align: center;">Expense History</h2>
+    <h2 style="text-align: center; color: #724fff;" >Expense History</h2>
     <table>
         <thead>
             <tr>
@@ -35,18 +35,38 @@
     </table>
 </div>
 <style>
-    .btn-danger {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 8px 12px;
-    border-radius: 4px;
-    cursor: pointer;
-}
+    .expense-history table {
+        width:100%;
+        border-collapse: collapse;
+    }
 
-.btn-danger:hover {
-    background-color: #c82333;
-}
+    .expense-history th {
+        background-color: #5a5959;
+        border: 1px solid #555;
+        padding: 8px;
+        text-align: left;
+        color:#000;
+    }
+
+    .expense-history td {
+        border: 1px solid #555;
+        padding: 8px;
+        text-align: left;
+        color:white;
+    }
+
+    .btn-danger {
+        background-color: #dc3545;
+        color: white;
+        border: none;
+        padding: 8px 12px;
+        border-radius: 4px;
+        cursor: pointer;
+    }
+
+    .btn-danger:hover {
+        background-color: #c82333;
+    }
 
 </style>
 {% endblock %}

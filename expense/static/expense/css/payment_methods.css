@@ -13,6 +13,7 @@
     margin-bottom: 20px;
 }
 
+
 .warnings {
     background-color: #333;
     border: 1px solid #ff0000;
@@ -24,6 +25,7 @@
 .warning {
     color: #d8000c;
     font-weight: bold;
+    text-align: center;
 }
 
 .payment-method-list {
@@ -49,7 +51,25 @@
 .payment-method-form {
     padding: 20px;
     background-color: #333;
+    color: #724fff;
     border: 1px solid #000;
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+
+.form-control {
+    background-color: #1c1c1c; /* Dark background */
+    color: white; /* White text for readability */
+    border: 1px solid #287d10; /* Match your theme color */
+    border-radius: 5px; /* Rounded edges */
+    padding: 10px; /* Add some padding */
+    font-size: 1em; /* Adjust text size */
+    outline: none; /* Remove default focus outline */
+}
+
+/* Change color on focus */
+.form-control:focus {
+    border-color: #724fff; /* Highlight with another theme color */
+    box-shadow: 0 0 5px #724fff; /* Optional glow effect */
 }
