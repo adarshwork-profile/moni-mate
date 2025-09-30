@@ -20,6 +20,17 @@ class ExpenseForm(forms.ModelForm):
         if user:
             self.fields['payment_method'].queryset = PaymentMethod.objects.filter(user=user)
 
+class PaymentEditForm(forms.ModelForm):
+    class Meta:
+        model = PaymentMethod
+        fields = ['balance','credit_limit','minimum_balance','account_type','billing_date']
+        widgets = {
+            'balance':forms.NumberInput(attrs={'class':'form-control'}),
+            'minimum_balance':forms.NumberInput(attrs={'class':'form-control'}),
+            'credit_limit':forms.NumberInput(attrs={'class':'form-control'}),
+            'account_type':forms.TextInput(attrs={'class':'form-control'}),
+            'billing_date':forms.NumberInput(attrs={'class':'form-control'}),
+        }
 class PaymentMethodForm(forms.ModelForm):
     spent_percent = forms.DecimalField(max_digits=10,decimal_places=2,required=False,help_text="Percentage of credit limit you want to set as the spent limit (e.g., 30 for 30%).")
 

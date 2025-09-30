@@ -174,7 +174,10 @@ def add_expense(request):
 
 @login_required
 def expense_history(request):
-    expenses = Expense.objects.filter(user=request.user).order_by('-date')
+    # current date and time
+    present = now()
+    start_of_month = now.replace(day=1, hour=0, minute=0, second=0, microsecond=0)
+    expenses = Expense.objects.filter(user=request.user,date__gte = start_of_month).order_by('-date')
     return render(request, 'expense/expense_history.html',{'expenses':expenses})
 
 @login_required
